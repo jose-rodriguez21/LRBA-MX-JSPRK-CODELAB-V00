@@ -1,15 +1,13 @@
 package com.bbva.lrba.mx.jsprk.codelab.v00;
 
 import com.bbva.lrba.spark.transformers.Transform;
-import com.bbva.lrba.mx.jsprk.codelab.v00.model.RowData;
-import org.apache.spark.sql.Column;
 import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.Row;
 
-import javax.xml.crypto.Data;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.apache.spark.sql.functions.*;
 
 public class Transformer implements Transform {
 
@@ -19,12 +17,25 @@ public class Transformer implements Transform {
 
         Dataset<Row> dataset1 = datasetsFromRead.get("sourceAlias1");
         Dataset<Row> dataset2 = datasetsFromRead.get("sourceAlias2");
+        dataset1.show();
+        dataset2.show();
 
-        Dataset<Row> joinDNIDataset = dataset1.join(dataset2, "DNI")
-                                              .select("DNI")
-                                              .where(dataset1.col("DNI").equalTo("000001"));
+        System.out.println("Dataset1 Counting: " + dataset1.count());
+        System.out.println("Dataset2 Counting: " + dataset2.count());
 
-        datasetsToWrite.put("joinDNIDataset", joinDNIDataset);
+        Dataset<Row> joinDNIDataset = dataset1.join(dataset2, "DNI");
+
+        Dataset<Row> exerciseDataset = joinDNIDataset.withColumn("FECHA", lit(current_date()))
+                .withColumn("DNI_CONDITION", when(col("DNI").equalTo(1), 200).otherwise(40))
+                .withColumn("DNI", col("DNI").cast("Integer"));
+
+        datasetsToWrite.put("joinDNIDataset", exerciseDataset);
+
+        System.out.println("Impresion de joinDNIDataset en class Transformer:");
+        datasetsToWrite.get("joinDNIDataset").show();
+        exerciseDataset.groupBy("FECHA").sum("DNI").drop("FECHA").show();
+        exerciseDataset.groupBy("FECHA").avg("DNI").drop("FECHA").show();
+        exerciseDataset.groupBy("FECHA").max("DNI").drop("FECHA").show();
 
         return datasetsToWrite;
     }

@@ -13,6 +13,7 @@ import org.apache.spark.sql.types.StructType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -33,23 +34,23 @@ class TransformerTest extends LRBASparkTest {
     void transform_Output() {
         StructType schema1 = DataTypes.createStructType(new StructField[]{
                 DataTypes.createStructField("ENTIDAD", DataTypes.StringType, false),
-                DataTypes.createStructField("DNI", DataTypes.StringType, false),
+                DataTypes.createStructField("DNI", DataTypes.IntegerType, false),
                 DataTypes.createStructField("NOMBRE", DataTypes.StringType, false),
                 DataTypes.createStructField("TELEFONO", DataTypes.StringType, false),
         });
-        Row firstRow1 = RowFactory.create("0182", "000001", "John Doe", "123-456");
-        Row secondRow1 = RowFactory.create("0182", "000002", "Mike Doe", "123-567");
-        Row thirdRow1 = RowFactory.create("0182", "000003", "Paul Doe", "123-678");
+        Row firstRow1 = RowFactory.create("0182", 1, "John Doe", "123-456");
+        Row secondRow1 = RowFactory.create("0182", 2, "Mike Doe", "123-567");
+        Row thirdRow1 = RowFactory.create("0182", 3, "Paul Doe", "123-678");
 
         final List<Row> listRows1 = Arrays.asList(firstRow1, secondRow1, thirdRow1);
 
         StructType schema2 = DataTypes.createStructType(new StructField[]{
-                DataTypes.createStructField("DNI", DataTypes.StringType, false),
+                DataTypes.createStructField("DNI", DataTypes.IntegerType, false),
                 DataTypes.createStructField("EMAIL", DataTypes.StringType, false),
         });
-        Row firstRow2 = RowFactory.create("000001", "johndoe@gmail.com");
-        Row secondRow2 = RowFactory.create("000002", "mikedoe@gmail.com");
-        Row thirdRow2 = RowFactory.create("000003", "pauldoe@gmail.com");
+        Row firstRow2 = RowFactory.create(1, "johndoe@gmail.com");
+        Row secondRow2 = RowFactory.create(2, "mikedoe@gmail.com");
+        Row thirdRow2 = RowFactory.create(3, "pauldoe@gmail.com");
 
         final List<Row> listRows2 = Arrays.asList(firstRow2, secondRow2, thirdRow2);
 
@@ -62,15 +63,18 @@ class TransformerTest extends LRBASparkTest {
         assertNotNull(datasetMap);
         assertEquals(1, datasetMap.size());
 
-        Dataset<Row> returnedDs = datasetMap.get("joinDNIDataset");
+        Dataset<RowData> returnedDs = datasetMap.get("joinDNIDataset").as(Encoders.bean(RowData.class));
+        System.out.println("Impresion de joinDNIDataset en class TransformerTest:");
         returnedDs.show();
-        final List<Row> rows = returnedDs.collectAsList();
+        final List<RowData> rows = returnedDs.collectAsList();
 
-        assertEquals(1, rows.size());
-        assertEquals("000001", rows.get(0).getString(0));
-        //assertEquals("0182", rows.get(0).getENTIDAD());
-        //assertEquals("John Doe", rows.get(0).getNOMBRE());
-        //assertEquals("123-456", rows.get(0).getTELEFONO());
-        //assertEquals("johndoe@gmail.com", rows.get(0).getEMAIL());
+        assertEquals(3, rows.size());
+        assertEquals(1, rows.get(0).getDNI());
+        assertEquals("0182", rows.get(0).getENTIDAD());
+        assertEquals("John Doe", rows.get(0).getNOMBRE());
+        assertEquals("123-456", rows.get(0).getTELEFONO());
+        assertEquals("johndoe@gmail.com", rows.get(0).getEMAIL());
+        assertEquals(LocalDate.now(), rows.get(0).getFECHA());
+        assertEquals(200, rows.get(0).getDNI_CONDITION());
     }
 }

@@ -1,18 +1,25 @@
 package com.bbva.lrba.mx.jsprk.codelab.v00.model;
 
+import org.apache.arrow.flatbuf.Int;
+
+import java.time.LocalDate;
+
 public class RowData {
 
-    private String DNI;
+    private Integer DNI;
     private String ENTIDAD;
     private String NOMBRE;
     private String TELEFONO;
     private String EMAIL;
 
-    public String getDNI() {
+    private LocalDate FECHA;
+    private Integer DNI_CONDITION;
+
+    public Integer getDNI() {
         return DNI;
     }
 
-    public void setDNI(String DNI) {
+    public void setDNI(Integer DNI) {
         this.DNI = DNI;
     }
 
@@ -46,5 +53,21 @@ public class RowData {
 
     public void setEMAIL(String EMAIL) {
         this.EMAIL = EMAIL;
+    }
+
+    public LocalDate getFECHA() {
+        return FECHA;
+    }
+
+    public void setFECHA(LocalDate FECHA) {
+        this.FECHA = FECHA;
+    }
+
+    public Integer getDNI_CONDITION() {
+        return DNI_CONDITION;
+    }
+
+    public void setDNI_CONDITION(Integer DNI_CONDITION) {
+        this.DNI_CONDITION = DNI_CONDITION;
     }
 }
