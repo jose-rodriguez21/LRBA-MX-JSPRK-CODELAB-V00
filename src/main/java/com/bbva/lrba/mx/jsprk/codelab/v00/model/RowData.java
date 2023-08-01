@@ -1,7 +1,5 @@
 package com.bbva.lrba.mx.jsprk.codelab.v00.model;
 
-import org.apache.arrow.flatbuf.Int;
-
 import java.time.LocalDate;
 
 public class RowData {

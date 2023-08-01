@@ -33,11 +33,10 @@ public class Transformer implements Transform {
 
         System.out.println("Impresion de joinDNIDataset en class Transformer:");
         datasetsToWrite.get("joinDNIDataset").show();
-        exerciseDataset.groupBy("FECHA").sum("DNI").drop("FECHA").show();
-        exerciseDataset.groupBy("FECHA").avg("DNI").drop("FECHA").show();
-        exerciseDataset.groupBy("FECHA").max("DNI").drop("FECHA").show();
+
+        exerciseDataset.groupBy("FECHA").agg(sum("DNI"),avg("DNI"), max("DNI"))
+                                             .drop("FECHA").show();
 
         return datasetsToWrite;
     }
-
 }
