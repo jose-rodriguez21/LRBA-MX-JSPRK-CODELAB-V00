@@ -41,40 +41,38 @@ class TransformerTest extends LRBASparkTest {
         Row firstRow1 = RowFactory.create("0182", 1, "John Doe", "123-456");
         Row secondRow1 = RowFactory.create("0182", 2, "Mike Doe", "123-567");
         Row thirdRow1 = RowFactory.create("0182", 3, "Paul Doe", "123-678");
+        Row fourRow1 = RowFactory.create("0182", 4, "Rick Doe", "123-785");
 
-        final List<Row> listRows1 = Arrays.asList(firstRow1, secondRow1, thirdRow1);
+        final List<Row> listRows1 = Arrays.asList(firstRow1, secondRow1, thirdRow1, fourRow1);
 
-        StructType schema2 = DataTypes.createStructType(new StructField[]{
-                DataTypes.createStructField("DNI", DataTypes.IntegerType, false),
-                DataTypes.createStructField("EMAIL", DataTypes.StringType, false),
+        StructType schemaNew = DataTypes.createStructType(new StructField[]{
+                DataTypes.createStructField("ENTIDAD", DataTypes.StringType, false),
+                DataTypes.createStructField("CP", DataTypes.StringType, false),
         });
-        Row firstRow2 = RowFactory.create(1, "johndoe@gmail.com");
-        Row secondRow2 = RowFactory.create(2, "mikedoe@gmail.com");
-        Row thirdRow2 = RowFactory.create(3, "pauldoe@gmail.com");
+        Row firstRowNew = RowFactory.create("0182", "55762");
+        Row secondRowNew = RowFactory.create("0182", "55768");
+        Row thirdRowNew = RowFactory.create("0182", "55762");
+        Row fourRowNew = RowFactory.create("0182", "55762");
 
-        final List<Row> listRows2 = Arrays.asList(firstRow2, secondRow2, thirdRow2);
+        final List<Row> listRowsNew = Arrays.asList(firstRowNew, secondRowNew, thirdRowNew, fourRowNew);
 
         DatasetUtils<Row> datasetUtils = new DatasetUtils<>();
         Dataset<Row> input1 = datasetUtils.createDataFrame(listRows1, schema1);
-        Dataset<Row> input2 = datasetUtils.createDataFrame(listRows2, schema2);
+        Dataset<Row> input3 = datasetUtils.createDataFrame(listRowsNew, schemaNew);
 
-        final Map<String, Dataset<Row>> datasetMap = this.transformer.transform(new HashMap<>(Map.of("sourceAlias1", input1, "sourceAlias2", input2)));
+        final Map<String, Dataset<Row>> datasetMap = this.transformer.transform(new HashMap<>(Map.of("sourceAlias1", input1, "sourceAlias3", input3)));
 
         assertNotNull(datasetMap);
         assertEquals(1, datasetMap.size());
 
-        Dataset<RowData> returnedDs = datasetMap.get("joinDNIDataset").as(Encoders.bean(RowData.class));
-        System.out.println("Impresion de joinDNIDataset en class TransformerTest:");
+        Dataset<RowData> returnedDs = datasetMap.get("joinDataset31").as(Encoders.bean(RowData.class));
+        System.out.println("Impresion de joinDataset31 en class TransformerTest:");
         returnedDs.show();
         final List<RowData> rows = returnedDs.collectAsList();
 
-        assertEquals(3, rows.size());
-        assertEquals(1, rows.get(0).getDNI());
+        assertEquals(4, rows.size());
         assertEquals("0182", rows.get(0).getENTIDAD());
         assertEquals("John Doe", rows.get(0).getNOMBRE());
         assertEquals("123-456", rows.get(0).getTELEFONO());
-        assertEquals("johndoe@gmail.com", rows.get(0).getEMAIL());
-        assertEquals(LocalDate.now(), rows.get(0).getFECHA());
-        assertEquals(200, rows.get(0).getDNI_CONDITION());
     }
 }

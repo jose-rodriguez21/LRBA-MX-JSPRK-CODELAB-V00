@@ -4,22 +4,11 @@ import java.time.LocalDate;
 
 public class RowData {
 
-    private Integer DNI;
     private String ENTIDAD;
     private String NOMBRE;
     private String TELEFONO;
-    private String EMAIL;
+    private String CP;
 
-    private LocalDate FECHA;
-    private Integer DNI_CONDITION;
-
-    public Integer getDNI() {
-        return DNI;
-    }
-
-    public void setDNI(Integer DNI) {
-        this.DNI = DNI;
-    }
 
     public String getENTIDAD() {
         return ENTIDAD;
@@ -45,27 +34,11 @@ public class RowData {
         this.TELEFONO = TELEFONO;
     }
 
-    public String getEMAIL() {
-        return EMAIL;
+    public String getCP() {
+        return CP;
     }
 
-    public void setEMAIL(String EMAIL) {
-        this.EMAIL = EMAIL;
-    }
-
-    public LocalDate getFECHA() {
-        return FECHA;
-    }
-
-    public void setFECHA(LocalDate FECHA) {
-        this.FECHA = FECHA;
-    }
-
-    public Integer getDNI_CONDITION() {
-        return DNI_CONDITION;
-    }
-
-    public void setDNI_CONDITION(Integer DNI_CONDITION) {
-        this.DNI_CONDITION = DNI_CONDITION;
+    public void setCP(String CP) {
+        this.CP = CP;
     }
 }
