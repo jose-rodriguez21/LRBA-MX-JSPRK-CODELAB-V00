@@ -13,7 +13,6 @@ import org.apache.spark.sql.types.StructType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -74,5 +73,6 @@ class TransformerTest extends LRBASparkTest {
         assertEquals("0182", rows.get(0).getENTIDAD());
         assertEquals("John Doe", rows.get(0).getNOMBRE());
         assertEquals("123-456", rows.get(0).getTELEFONO());
+        assertEquals("55762", rows.get(0).getCP());
     }
 }

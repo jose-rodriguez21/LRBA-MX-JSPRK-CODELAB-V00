@@ -8,8 +8,7 @@ public enum Constants {
 
     DNI_COLUMN("DNI"),
     ENTIDAD_COLUMN("ENTIDAD"),
-    NOMBRE_COLUMN("NOMBRE"),
-    TELEFONO_COLUMN("TELEFONO")
+    NOMBRE_COLUMN("NOMBRE")
 
     ;
     private String value;

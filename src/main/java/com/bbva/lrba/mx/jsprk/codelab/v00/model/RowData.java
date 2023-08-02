@@ -1,7 +1,5 @@
 package com.bbva.lrba.mx.jsprk.codelab.v00.model;
 
-import java.time.LocalDate;
-
 public class RowData {
 
     private String ENTIDAD;

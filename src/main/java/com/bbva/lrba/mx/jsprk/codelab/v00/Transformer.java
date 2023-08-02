@@ -3,15 +3,11 @@ package com.bbva.lrba.mx.jsprk.codelab.v00;
 import com.bbva.lrba.spark.transformers.Transform;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
-import scala.collection.JavaConversions;
-import scala.collection.Seq;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.bbva.lrba.mx.jsprk.codelab.v00.utils.Constants.*;
-import static org.apache.spark.sql.functions.*;
 
 public class Transformer implements Transform {
 
