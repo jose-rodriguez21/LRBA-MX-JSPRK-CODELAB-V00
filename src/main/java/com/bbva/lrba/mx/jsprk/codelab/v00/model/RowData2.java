@@ -1,6 +1,6 @@
 package com.bbva.lrba.mx.jsprk.codelab.v00.model;
 
-public class RowData {
+public class RowData2 {
 
     private String ENTIDAD;
     private String NOMBRE;

@@ -63,12 +63,17 @@ class JobCodelabBuilderTest {
         final TargetsList targetsList = this.jobCodelabBuilder.registerTargets();
         assertNotNull(targetsList);
         assertNotNull(targetsList.getTargets());
-        assertEquals(1, targetsList.getTargets().size());
+        assertEquals(2, targetsList.getTargets().size());
 
-        final Target target = targetsList.getTargets().get(0);
-        assertNotNull(target);
-        assertEquals("joinDataset31", target.getAlias());
-        assertEquals("output/output.csv", target.getPhysicalName());
+        final Target target1 = targetsList.getTargets().get(0);
+        assertNotNull(target1);
+        assertEquals("joinDNIDataset", target1.getAlias());
+        assertEquals("output/output.csv", target1.getPhysicalName());
+
+        final Target target2 = targetsList.getTargets().get(1);
+        assertNotNull(target2);
+        assertEquals("joinDataset31", target2.getAlias());
+        assertEquals("output/output2.csv", target2.getPhysicalName());
     }
 
 }
